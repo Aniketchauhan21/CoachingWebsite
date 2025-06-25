@@ -1,0 +1,163 @@
+/* Left Side Call Button */
+.floating-call-btn {
+  position: fixed;
+  left: 20px;
+  bottom: 30px;
+  width: 60px;
+  height: 60px;
+  background-color: #007bff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.4);
+  z-index: 1000;
+  transition: all 0.3s ease;
+  animation: pulse-call 2s infinite;
+}
+
+.floating-call-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 20px rgba(0, 123, 255, 0.6);
+}
+
+.call-icon {
+  width: 28px;
+  height: 28px;
+  color: white;
+}
+
+/* Right Side Container for buttons */
+.floating-right-container {
+  position: fixed;
+  right: 20px;
+  bottom: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  z-index: 1000;
+}
+
+/* WhatsApp Button - Always at bottom of right container */
+.floating-whatsapp-btn {
+  width: 60px;
+  height: 60px;
+  background-color: #25D366;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(37, 211, 102, 0.4);
+  transition: all 0.3s ease;
+  animation: pulse-whatsapp 2s infinite;
+  order: 2; /* Always at bottom */
+}
+
+.floating-whatsapp-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 20px rgba(37, 211, 102, 0.6);
+}
+
+.whatsapp-icon {
+  width: 32px;
+  height: 32px;
+  color: white;
+}
+
+/* Scroll to Top Button - Above WhatsApp */
+.floating-scroll-top {
+  width: 50px;
+  height: 50px;
+  background-color: #6c757d;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(108, 117, 125, 0.4);
+  transition: all 0.3s ease;
+  order: 1; /* Above WhatsApp */
+}
+
+.floating-scroll-top:hover {
+  transform: scale(1.1);
+  background-color: #495057;
+  box-shadow: 0 6px 20px rgba(108, 117, 125, 0.6);
+}
+
+.floating-scroll-top svg {
+  width: 24px;
+  height: 24px;
+  color: white;
+}
+
+/* Animations */
+@keyframes pulse-call {
+  0% {
+    box-shadow: 0 4px 12px rgba(0, 123, 255, 0.4);
+  }
+  50% {
+    box-shadow: 0 4px 12px rgba(0, 123, 255, 0.4), 0 0 0 10px rgba(0, 123, 255, 0.1);
+  }
+  100% {
+    box-shadow: 0 4px 12px rgba(0, 123, 255, 0.4), 0 0 0 20px rgba(0, 123, 255, 0);
+  }
+}
+
+@keyframes pulse-whatsapp {
+  0% {
+    box-shadow: 0 4px 12px rgba(37, 211, 102, 0.4);
+  }
+  50% {
+    box-shadow: 0 4px 12px rgba(37, 211, 102, 0.4), 0 0 0 10px rgba(37, 211, 102, 0.1);
+  }
+  100% {
+    box-shadow: 0 4px 12px rgba(37, 211, 102, 0.4), 0 0 0 20px rgba(37, 211, 102, 0);
+  }
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .floating-call-btn,
+  .floating-whatsapp-btn {
+    width: 55px;
+    height: 55px;
+  }
+  
+  .floating-scroll-top {
+    width: 45px;
+    height: 45px;
+  }
+  
+  .floating-call-btn,
+  .floating-right-container {
+    bottom: 20px;
+  }
+  
+  .floating-call-btn {
+    left: 15px;
+  }
+  
+  .floating-right-container {
+    right: 15px;
+    gap: 12px;
+  }
+  
+  .call-icon {
+    width: 24px;
+    height: 24px;
+  }
+  
+  .whatsapp-icon {
+    width: 28px;
+    height: 28px;
+  }
+  
+  .floating-scroll-top svg {
+    width: 20px;
+    height: 20px;
+  }
+}

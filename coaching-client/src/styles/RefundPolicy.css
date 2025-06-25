@@ -1,0 +1,63 @@
+
+/* Page Layout */
+.refund-policy {
+  padding: 50px 00px;
+  background-color: #f9f9f9;
+  color: #333;
+}
+
+.refund-policy-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Title Styling */
+.refund-policy-title {
+  text-align: center;
+  font-size: 2.5rem;
+  color: #ffd700;
+  margin-bottom: 20px;
+}
+
+.refund-policy-description {
+  font-size: 1rem;
+  color: #666;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* Refund Policy List */
+.refund-policy-list {
+  font-size: 1rem;
+  color: #555;
+  line-height: 1.6;
+}
+
+.refund-policy-list li {
+  margin-bottom: 15px;
+}
+
+.refund-policy-list li::before {
+  content: '•';
+  margin-right: 10px;
+  color: #ffd700;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+  .refund-policy-title {
+    font-size: 2rem;
+  }
+
+  .refund-policy-description {
+    font-size: 0.875rem;
+  }
+
+  .refund-policy-list {
+    font-size: 0.9rem;
+  }
+}

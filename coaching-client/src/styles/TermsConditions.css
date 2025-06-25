@@ -1,0 +1,69 @@
+/* TermsConditions.css */
+
+/* Page Layout */
+.terms-conditions {
+  padding: 50px 0px;
+  background-color: #f9f9f9;
+  color: #333;
+}
+
+.terms-conditions-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Title Styling */
+.terms-conditions-title {
+  text-align: center;
+  font-size: 2.5rem;
+  color: #ffd700;
+  margin-bottom: 20px;
+}
+
+.terms-conditions-description {
+  font-size: 1rem;
+  color: #666;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* Terms & Conditions List */
+.terms-conditions-list {
+  font-size: 1rem;
+  color: #555;
+  line-height: 1.6;
+}
+
+.terms-conditions-list li {
+  margin-bottom: 15px;
+}
+
+.terms-conditions-list li::before {
+  content: '•';
+  margin-right: 10px;
+  color: #ffd700;
+}
+
+.terms-conditions-list strong {
+  color: #333;
+  font-weight: bold;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+  .terms-conditions-title {
+    font-size: 2rem;
+  }
+
+  .terms-conditions-description {
+    font-size: 0.875rem;
+  }
+
+  .terms-conditions-list {
+    font-size: 0.9rem;
+  }
+}
