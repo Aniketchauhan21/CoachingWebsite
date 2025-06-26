@@ -153,10 +153,10 @@ const Navbar = () => {
                                 Courses
                                 <IoIosArrowDown className="ml-1 text-xs transition-transform duration-300 group-hover:rotate-180" />
                             </Link>
-                            <div className="absolute top-full left-1/2 transform -translate-x-1/2 pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300">
+                            {/* <div className="absolute top-full left-1/2 transform -translate-x-1/2 pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300">
                                 <div className="bg-white/95 backdrop-blur-lg rounded-xl shadow-xl border border-gray-100 py-2 min-w-48">
                                     <Link 
-                                        to="/courses/spoken-english" 
+                                to="#" 
                                         className="block px-4 py-3 text-gray-700 hover:text-blue-600 hover:bg-blue-50 transition-all duration-200 hover:translate-x-1"
                                         onClick={closeMobileMenu}
                                     >
@@ -177,7 +177,7 @@ const Navbar = () => {
                                         IELTS Preparation
                                     </Link>
                                 </div>
-                            </div>
+                            </div> */}
                         </div>
 
                         {/* Blog Dropdown */}
@@ -191,7 +191,7 @@ const Navbar = () => {
                                 Blog
                                 <IoIosArrowDown className="ml-1 text-xs transition-transform duration-300 group-hover:rotate-180" />
                             </Link>
-                            <div className="absolute top-full left-1/2 transform -translate-x-1/2 pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300">
+                            {/* <div className="absolute top-full left-1/2 transform -translate-x-1/2 pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300">
                                 <div className="bg-white/95 backdrop-blur-lg rounded-xl shadow-xl border border-gray-100 py-2 min-w-48">
                                     <Link 
                                         to="/blog/study-tips" 
@@ -215,7 +215,7 @@ const Navbar = () => {
                                         Success Stories
                                     </Link>
                                 </div>
-                            </div>
+                            </div> */}
                         </div>
 
                         {/* Services */}
@@ -241,6 +241,7 @@ const Navbar = () => {
                                 style={{backgroundColor: '#eda835'}}
                             ></span>
                         </Link>
+
 
                         {/* Auth Section */}
                         {!user && (
@@ -534,6 +535,7 @@ const Navbar = () => {
                         Contact
                     </Link>
 
+
                     {/* Mobile Auth Section */}
                     {!user && (
                         <div>
@@ -661,8 +663,11 @@ const Navbar = () => {
                     )}
 
                 </div>
+
             </div>
+
         </nav>
+        
     );
 };
 
