@@ -19,7 +19,6 @@ const AdminDashboard = () => {
     totalCourses: 0,
     totalBlogs: 0,
     totalServices: 0,
-    totalEnrollments: 0
   });
   // const [recentEnrollments, setRecentEnrollments] = useState([]);
   const [courses, setCourses] = useState([]);
@@ -77,6 +76,31 @@ const AdminDashboard = () => {
     }
   }, [user, isAdmin, isLoading, navigate, logout]);
 
+  // Fetch services count specifically for stats
+  const fetchServicesCount = useCallback(async () => {
+    try {
+      const params = new URLSearchParams({
+        search: '',
+        category: '',
+        active: 'all'
+      });
+      
+      const response = await fetch(`${API_BASE_URL}/services?${params}`);
+      const data = await response.json();
+      
+      if (data.success && Array.isArray(data.services)) {
+        return data.services.length;
+      } else {
+        // Fallback - try direct API call
+        const directResponse = await axios.get(`${API_BASE_URL}/services`);
+        return Array.isArray(directResponse.data) ? directResponse.data.length : 0;
+      }
+    } catch (error) {
+      console.error('Error fetching services count:', error);
+      return 0;
+    }
+  }, []);
+
   // Fetch stats
   const fetchStats = useCallback(async () => {
     if (!isAdmin) return;
@@ -89,16 +113,17 @@ const AdminDashboard = () => {
         logout();
         navigate('/admin/login');
       } else {
+        // Manual calculation as fallback
+        const servicesCount = await fetchServicesCount();
         setStats({
           totalStudents: students.length,
           totalCourses: courses.length,
           totalBlogs: blogs.length,
-          totalServices: services.length,
-          totalEnrollments: 0
+          totalServices: servicesCount,
         });
       }
     }
-  }, [isAdmin, logout, navigate, students.length, courses.length, blogs.length, services.length]);
+  }, [isAdmin, logout, navigate, students.length, courses.length, blogs.length, fetchServicesCount]);
 
   // // Fetch recent enrollments
   // const fetchRecentEnrollments = useCallback(async () => {
@@ -135,15 +160,13 @@ const AdminDashboard = () => {
         axios.get(`${API_BASE_URL}/blogs`, publicConfig).catch(() => 
           axios.get(`${API_BASE_URL}/blogs`, authConfig)
         ),
-        axios.get(`${API_BASE_URL}/services`, publicConfig).catch(() => 
-          axios.get(`${API_BASE_URL}/services`, authConfig)
-        ),
+        fetchServicesCount(), // Use the specific services count function
         axios.get(`${API_BASE_URL}/admin/students`, authConfig).catch(() => 
           ({ data: { students: [] } })
         ),
       ];
 
-      const [coursesRes, blogsRes, servicesRes, studentsRes] = await Promise.all(promises);
+      const [coursesRes, blogsRes, servicesCount, studentsRes] = await Promise.all(promises);
 
       const studentsArr = Array.isArray(studentsRes.data)
         ? studentsRes.data
@@ -151,8 +174,17 @@ const AdminDashboard = () => {
 
       setCourses(Array.isArray(coursesRes.data) ? coursesRes.data : []);
       setBlogs(Array.isArray(blogsRes.data) ? blogsRes.data : []);
-      setServices(Array.isArray(servicesRes.data) ? servicesRes.data : []);
+      // Don't set services state as AdminServices manages its own
       setStudents(studentsArr);
+      
+      // Update stats with services count
+      setStats(prev => ({
+        ...prev,
+        totalStudents: studentsArr.length,
+        totalCourses: Array.isArray(coursesRes.data) ? coursesRes.data.length : 0,
+        totalBlogs: Array.isArray(blogsRes.data) ? blogsRes.data.length : 0,
+        totalServices: servicesCount,
+      }));
       
       setError('');
     } catch (error) {
@@ -165,7 +197,7 @@ const AdminDashboard = () => {
     } finally {
       setLoading(false);
     }
-  }, [isAdmin, logout, navigate]);
+  }, [isAdmin, logout, navigate, fetchServicesCount]);
 
   // Fetch data when user is confirmed to be admin
   useEffect(() => {
@@ -180,7 +212,16 @@ const AdminDashboard = () => {
     if (isAdmin && !isLoading) {
       fetchStats();
     }
-  }, [fetchStats, courses.length, blogs.length, services.length, students.length, isAdmin, isLoading]);
+  }, [fetchStats, courses.length, blogs.length, students.length, isAdmin, isLoading]);
+
+  // Callback to refresh stats when services change
+  const refreshStats = useCallback(async () => {
+    const servicesCount = await fetchServicesCount();
+    setStats(prev => ({
+      ...prev,
+      totalServices: servicesCount
+    }));
+  }, [fetchServicesCount]);
 
   const handleInputChange = (e, setter) => {
     const { name, value } = e.target;
@@ -373,6 +414,12 @@ const AdminDashboard = () => {
         
         await axios.delete(`${API_BASE_URL}${endpoint}`, config);
         await fetchAllData();
+        
+        // Refresh stats after deletion
+        if (type === 'services') {
+          refreshStats();
+        }
+        
         showSuccess(`${type.slice(0, -1)} deleted successfully!`);
       } catch (error) {
         if (error.response?.status === 401) {
@@ -456,7 +503,7 @@ const AdminDashboard = () => {
               { key: 'overview', label: 'Overview' },
               { key: 'courses', label: `Courses (${courses.length})` },
               { key: 'blogs', label: `Blogs (${blogs.length})` },
-              { key: 'services', label: `Services (${services.length})` },
+              { key: 'services', label: `Services (${stats.totalServices})` },
               { key: 'students', label: `Students (${students.length})` }
             ].map(tab => (
               <button
@@ -478,12 +525,11 @@ const AdminDashboard = () => {
         {activeTab === 'overview' && (
           <div className="space-y-8">
             {/* Stats Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               <StatCard title="Total Students" value={stats.totalStudents} icon="👥" color="#4299E1" />
               <StatCard title="Total Courses" value={stats.totalCourses} icon="📚" color="#48BB78" />
               <StatCard title="Total Blogs" value={stats.totalBlogs} icon="📝" color="#9F7AEA" />
               <StatCard title="Total Services" value={stats.totalServices} icon="🛠️" color="#ECC94B" />
-              <StatCard title="Total Enrollments" value={stats.totalEnrollments} icon="📈" color="#F56565" />
             </div>
 
             {/* Recent Enrollments */}
@@ -570,19 +616,7 @@ const AdminDashboard = () => {
 
         {/* Services Tab */}
         {activeTab === 'services' && (
-          <AdminServices
-            services={services}
-            serviceForm={serviceForm}
-            setServiceForm={setServiceForm}
-            editingServiceId={editingServiceId}
-            setEditingServiceId={setEditingServiceId}
-            handleServiceSubmit={handleServiceSubmit}
-            handleEditService={handleEditService}
-            cancelEditService={cancelEditService}
-            handleDelete={handleDelete}
-            loading={loading}
-            handleInputChange={handleInputChange}
-          />
+          <AdminServices onStatsUpdate={refreshStats} />
         )}
 
         {/* Students Tab */}

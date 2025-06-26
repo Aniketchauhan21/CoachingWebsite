@@ -2,24 +2,25 @@
 import React, { useEffect } from "react";
 import FloatingElements from "./FloatingElements";
 import AOS from "aos";
-import "aos/dist/aos.css"; // Import AOS CSS
+import "aos/dist/aos.css";
 import Navbar from "../components/comman/Navbar";
 import Footer from "../components/comman/Footer";
 
-
 const Layout = ({ children }) => {
   useEffect(() => {
-    // Initialize AOS animations
     AOS.init({
-      duration: 1000, // Animation duration
-      once: true, // Trigger animation only once
-      easing: "ease-in-out", // Animation easing
+      duration: 1000,
+      once: true,
+      easing: "ease-in-out",
     });
   }, []);
+
   return (
     <div className="">
+      
       <Navbar />
-      <main className="">
+      {/* Main content ko top margin/padding dena hoga */}
+      <main className="pt-20 md:pt-20"> {/* Header height ke according adjust karo */}
         {children}
       </main>
       <Footer />
