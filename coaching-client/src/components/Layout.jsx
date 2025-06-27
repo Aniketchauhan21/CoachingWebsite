@@ -17,10 +17,9 @@ const Layout = ({ children }) => {
 
   return (
     <div className="">
-      
       <Navbar />
       {/* Main content ko top margin/padding dena hoga */}
-      <main className="pt-20 md:pt-20"> {/* Header height ke according adjust karo */}
+      <main className="pt-16 md:pt-20">
         {children}
       </main>
       <Footer />
